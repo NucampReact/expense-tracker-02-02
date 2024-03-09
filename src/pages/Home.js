@@ -45,15 +45,6 @@ function Home() {
           </Card>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12} sm={6}>
-          <Accounts />
-          <Expenses />
-        </Col>
-        <Col xs={12} sm={6}>
-          <AccountSetup />
-        </Col>
-      </Row>
     </section>
   );
 }

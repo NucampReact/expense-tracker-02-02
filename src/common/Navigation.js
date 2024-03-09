@@ -12,6 +12,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
+import { NavLink as RRNavLink } from 'react-router-dom';
 
 function Navigation(args) {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,13 @@ function Navigation(args) {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="container-fluid" navbar>
             <NavItem>
-              <NavLink href='/'>Home</NavLink>
+              <NavLink tag={RRNavLink} to='/'>Home</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/expenses'>Expenses</NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink tag={RRNavLink} to='/accounts'>Account Setup</NavLink>
             </NavItem>
             <NavItem className="ms-auto" tag="nav">
             <UncontrolledDropdown nav>
