@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './stylesheets/bootstrap.scss'
 import { Home } from './pages';
 import { Container } from 'reactstrap';
 import Navigation from './common/Navigation';

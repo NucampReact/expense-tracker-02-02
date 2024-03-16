@@ -14,11 +14,15 @@ function Accounts(data) {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{data.account.accountName}</td>
-              <td>{data.account.accountDescription}</td>
-              <td>{data.account.balance}</td>
-            </tr>
+            { data.accounts.map(account => {
+              return (
+                <tr key={Math.random()}>
+                  <td>{account.accountName}</td>
+                  <td>{account.accountDescription}</td>
+                  <td>{account.balance}</td>
+                </tr>
+              )
+            })}
           </tbody>
         </Table>
       </CardBody>

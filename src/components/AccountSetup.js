@@ -61,6 +61,7 @@ Example(); // see new results
 
 
 function AccountSetup() {
+  const [ submit, setSubmit ] = useState(false);
   const [ accountName, setAccountName ] = useState('Default Account'); // default accountName = ''
   const [ budget, setBudget ] = useState(0); // default budget = 0
   const [ accountDescription, setAccountDescription ] = useState();
@@ -68,56 +69,29 @@ function AccountSetup() {
   const [ wishList, setWishList ] = useState([]); // default wishList = []
   const [ category, setCategory ] = useState('Food'); // default category = 'Food'
   const [ account, setAccount ] = useState({});
+  const [ accounts, setAccounts ] = useState([]);
 
-  const handleAccountName = (event) => {
-    let newAccountName = event.target.value;
-    setAccountName(newAccountName); // Replace accountName with newAccountName's value
-  }
-
-  const handleBudget = (event) => {
-    let newBudget = event.target.value;
-    setBudget(newBudget);
-  }
-
-  const handleAccountBalance = (event) => {
-    let newBalance = event.target.value;
-    setAccountBalance(newBalance);
-  }
-
-  const handleDescription = (event) => {
-    let newDescription = event.target.value;
-    setAccountDescription(newDescription);
+  // Using computed property syntax to populate the account object with all the form data
+  const handleInput = (event) => {
+    setAccount(prevAccount => ( { ...prevAccount, [event.target.name]: event.target.value } ))
   }
 
   const handleAccountClick = () => {
-    console.log('Creating account with below information');
-    console.log(`Account Name: ${accountName}\nBudget: ${budget}\nBalance: ${accountBalance}\nDescription: ${accountDescription}`);
-    
-    setAccount({
-      accountName: accountName,
-      budget: budget,
-      balance: accountBalance,
-      accountDescription: accountDescription
-    });
+    setSubmit(true);
 
-
+    setAccounts(prevAccounts => [ ...prevAccounts, account ]);
   }
-  console.log('account is', account);
-  // accountName is not being updated here
-  // console.log('account name is', accountName);
-  // console.log('budget is', budget);
-  
   
   return (
     <Card>
       <CardHeader>Enter in some intial information</CardHeader>
       <CardBody>
 
-        <Accounts account={account} />
+        <Accounts accounts={accounts} />
 
         <FormGroup>
           <Label>Account Name</Label>
-          <Input onChange={handleAccountName} />
+          <Input name='accountName' onChange={handleInput} />
         </FormGroup>
         <FormGroup>
           <Label for="exampleRange">
@@ -125,26 +99,26 @@ function AccountSetup() {
           </Label>
           <Input
             id="exampleRange"
-            name="range"
+            name="budget"
             type="range"
-            onChange={handleBudget}
+            onChange={handleInput}
           />
         </FormGroup>
         <FormGroup>
           <Label>Starting Account Balance</Label>
-          <Input type='number' onChange={handleAccountBalance} />
+          <Input name='balance' type='number' onChange={handleInput} />
         </FormGroup>
         <FormGroup>
           <Label>Account Description</Label>
-          <Input type='textarea' onChange={handleDescription} />
+          <Input name='description' type='textarea' onChange={handleInput} />
         </FormGroup>
         <FormGroup>
           <Label>Wish List</Label>
-          <Input />
+          <Input name='wishList' onChange={handleInput} />
         </FormGroup>
         <FormGroup>
           <Label>Category</Label>
-          <Input type="select">
+          <Input name='category' type="select" onChange={handleInput}>
             <option>Shopping</option>
             <option>Food</option>
             <option>Entertainment</option>
