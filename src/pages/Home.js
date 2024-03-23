@@ -1,8 +1,6 @@
 import { Row, Col, Card, CardHeader, CardBody, Progress } from 'reactstrap';
 import Title from '../common/Title';
-import AccountSetup from '../components/AccountSetup';
-import Expenses from '../components/Expenses';
-import Accounts from '../components/Accounts';
+import { useSelector } from 'react-redux';
 
 // JSX = JavaScript XML (extensible markup language)
 /*
@@ -26,7 +24,17 @@ import Accounts from '../components/Accounts';
   document.createElement(reactEl); // This is the final step that generates the HTML for the web page
 */
 
+function selectAccounts(state) {
+  return state.accounts
+}
+
 function Home() {
+  const accountsList = useSelector(selectAccounts);
+
+  const expenseList = useSelector(function(state) {
+    return state.expenses;
+  })
+
   return (
     <section>
       <Row className="mb-2 text-center">
@@ -41,6 +49,17 @@ function Home() {
                 <Progress bar color="warning" value={10}>Complete Tutorial</Progress>
                 <Progress bar value={30}>Fill Budget Sheet</Progress>
               </Progress>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6}>
+          <Card>
+            <CardHeader><Title message="Totals" /></CardHeader>
+            <CardBody>
+              <p>Expenses Recorded: {expenseList.length}</p>
+              <p>Accounts Recorded: {accountsList.length}</p>
             </CardBody>
           </Card>
         </Col>

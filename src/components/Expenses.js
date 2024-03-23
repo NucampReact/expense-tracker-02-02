@@ -2,6 +2,7 @@ import { Form, FormGroup, Input, Label, Table, Card, CardHeader, CardBody, CardF
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ACCOUNT_BALANCE = 1000;
 
@@ -9,8 +10,16 @@ function Expenses() {
   // useParams() returns an object of all of your parameterized route variables
   const { account, expense: expenseDetail } = useParams();
 
+  // get dispatcher function
+  const dispatcher = useDispatch();
+
+  // get the data from redux via useSelector hook
+  const expenseList = useSelector(function(state) {
+    // return what you want out of state
+    return state.expenses;
+  });
+
   const [ expense, setExpense ] = useState({});
-  const [ expenseList, setExpenseList ] = useState([]); // List of expense objects
   const [ expenseTotal, setExpenseTotal ] = useState(0);
   const [ expenseStatus, setExpenseStatus ] = useState('success');
 
@@ -19,8 +28,27 @@ function Expenses() {
   }
 
   const handleSubmit = () => {
-    // Add expense to our list
-    setExpenseList(prevExpenseList => [ ...prevExpenseList, expense ]);
+    // Save data into redux.
+    // First, describe the action
+    let action = {
+      // required property called 'type'
+      type: 'ADDING_EXPENSE', // unique identifier for the action
+      addedExpense: expense,
+    }
+
+    // Toolkit organizes the object like this:
+    /*
+      action = {
+        payload: {
+          foo: 'bar',
+          x: 1,
+          y: 3,
+          addedExpense: expense
+        }
+      }
+    */
+
+    dispatcher(action); // Sending the action through the dispatcher
   }
 
   // useEffect hook: Runs a "side effect" function when changes occur on some dependency

@@ -4,6 +4,7 @@ import {
   FormGroup, Input, Label, Button
 } from 'reactstrap';
 import Accounts from './Accounts';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Event binding
 // Choosing an event to listen to, and invoke some function when the event is triggered
@@ -62,14 +63,11 @@ Example(); // see new results
 
 function AccountSetup() {
   const [ submit, setSubmit ] = useState(false);
-  const [ accountName, setAccountName ] = useState('Default Account'); // default accountName = ''
-  const [ budget, setBudget ] = useState(0); // default budget = 0
-  const [ accountDescription, setAccountDescription ] = useState();
-  const [ accountBalance, setAccountBalance ] = useState(0); // default balance = 0
-  const [ wishList, setWishList ] = useState([]); // default wishList = []
-  const [ category, setCategory ] = useState('Food'); // default category = 'Food'
   const [ account, setAccount ] = useState({});
-  const [ accounts, setAccounts ] = useState([]);
+
+  const dispatcher = useDispatch();
+
+  const accounts = useSelector(state => state.accounts);
 
   // Using computed property syntax to populate the account object with all the form data
   const handleInput = (event) => {
@@ -79,8 +77,14 @@ function AccountSetup() {
   const handleAccountClick = () => {
     setSubmit(true);
 
-    setAccounts(prevAccounts => [ ...prevAccounts, account ]);
+    dispatcher({
+      type: 'ADD_ACCOUNT',
+      addedAccount: account
+    })
   }
+
+  console.log('accounts is', accounts);
+  
   
   return (
     <Card>
